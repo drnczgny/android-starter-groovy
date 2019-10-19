@@ -1,0 +1,141 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+//    buildToolsVersion "29.0.1"
+    defaultConfig {
+        applicationId "com.adrian.project"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+
+        }
+    }
+
+    flavorDimensions "mockDimension", "devDimension"
+
+    productFlavors {
+        mock {
+            dimension "mockDimension"
+            applicationIdSuffix ".mock"
+            versionNameSuffix "-mock"
+
+            resValue "string", "app_name", "Mock TheApp"
+        }
+
+        dev {
+            dimension "devDimension"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+
+            resValue "string", "app_name", "Dev TheApp"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // For Kotlin projects
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // dagger
+    implementation deps.dagger.dagger
+    implementation deps.dagger.daggerSupport
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt deps.dagger.daggerCompiler
+    kapt deps.dagger.daggerAndroidProcessor
+
+
+    implementation deps.kotlin.coreKtx
+    implementation deps.kotlin.stdlibJre7
+    implementation deps.kotlin.stdlib
+//    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
+    testImplementation deps.kotlin.stdlib
+
+    // support lib
+    implementation deps.support.appCompat
+    implementation deps.support.recyclerView
+    implementation deps.support.cardView
+    implementation deps.support.support
+    implementation deps.support.designSupport
+    implementation deps.support.constraintLayout
+
+    // androidx
+    implementation deps.android.androidXActivity
+    implementation deps.android.androidXFragment
+
+    // Architecture Components
+    implementation deps.android.lifeCycleExtension
+    implementation deps.android.lifeCycleViewModel
+    implementation deps.android.lifeCycleLiveData
+    kapt deps.android.lifeCycleCompiler
+    implementation deps.android.lifeCycleReactiveStreams
+//    testImplementation deps.android.lifeCycleTesting
+
+    // facebook
+    implementation deps.facebook.stetho
+
+    // dagger
+    implementation deps.dagger.dagger
+    implementation deps.dagger.daggerSupport
+    kapt deps.dagger.daggerCompiler
+    kapt deps.dagger.daggerAndroidProcessor
+
+    // RxJava2
+    implementation deps.reactivex.rxJava
+    implementation deps.reactivex.rxAndroid
+    implementation deps.reactivex.rxKotlin
+    implementation deps.reactivex.rxReplayingShare
+
+    // retrofit
+    implementation deps.square.retrofit
+    implementation deps.square.gsonConverter
+    implementation deps.square.okhttp
+    implementation deps.square.okhttpDownloader
+    implementation deps.square.stethoOkhttp
+    implementation deps.square.squareupRetrofitRxAdapter
+
+    // other 3rd party
+    implementation deps.square.picasso
+    implementation 'jp.wasabeef:picasso-transformations:2.1.0'
+    implementation deps.thirdparty.timber
+    implementation deps.thirdparty.dataFactory
+
+    // test
+//    api deps.test.mockk
+//    api deps.test.junit
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
